@@ -1,0 +1,25 @@
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\cell game.exe.config
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\cell game.exe
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\cell game.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\isometricgame.dll
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\OpenTK.dll
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\isometricgame.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\isometricgame.dll.config
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\OpenTK.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\OpenTK.xml
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Debug\cell game.csprojAssemblyReference.cache
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Debug\cell game.csproj.CoreCompileInputs.cache
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Debug\cell game.csproj.CopyComplete
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Debug\cell game.exe
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Debug\cell game.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\blue cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\empty.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\gamefont.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\red cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\selector.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\Shaders\shader.frag
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\Shaders\shader.vert
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\green cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\orange cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\pink cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Debug\Assets\purple cell.png

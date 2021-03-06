@@ -1,0 +1,25 @@
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\blue cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\empty.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\gamefont.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\red cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\selector.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\Shaders\shader.frag
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\Shaders\shader.vert
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\cell game.exe.config
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\cell game.exe
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\cell game.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\isometricgame.dll
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\OpenTK.dll
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\isometricgame.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\isometricgame.dll.config
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\OpenTK.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\OpenTK.xml
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Release\cell game.csproj.CoreCompileInputs.cache
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Release\cell game.csproj.CopyComplete
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Release\cell game.exe
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Release\cell game.pdb
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\green cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\orange cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\pink cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\bin\Release\Assets\purple cell.png
+C:\Users\grauslysd\source\repos\cell game\cell game\obj\Release\cell game.csprojAssemblyReference.cache
