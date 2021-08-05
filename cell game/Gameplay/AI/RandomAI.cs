@@ -12,11 +12,11 @@ namespace cell_game.Gameplay.AI
     {
         private float aggressionWeight = 0.90f;
         private float econWeight = 0.90f;
-        private int vendetta;
+        private uint vendetta;
 
         private Random random = new Random();
 
-        public RandomAI(int vendetta=0)
+        public RandomAI(uint vendetta=0)
         {
             this.vendetta = vendetta;
             aggressionWeight = (random.Next(50) / 100f) + 0.2f;
@@ -25,18 +25,18 @@ namespace cell_game.Gameplay.AI
 
         public override GameAction[] DetermineActions()
         {
-            IntegerPosition biasedPosition = GetRandomPosition(gameLevel);
+            IntegerPosition biasedPosition = GetRandomPosition(gameLevelData);
             float vendettaAttackWeight = aiState.GetProximityWeight(biasedPosition,0,vendetta,true);
 
             float attackWeight = vendettaAttackWeight;
-            for (int i = 0; i < gameLevel.playerRoster.Count; i++)
+            for (int i = 0; i < gameLevelData.playerRoster.Count; i++)
             {
-                if (!gameLevel.playerRoster[i].turnOver && gameLevel.playerRoster[i] != gameLevel.activePlayer)
+                if (!gameLevelData.playerRoster[i].turnOver && gameLevelData.playerRoster[i] != gameLevelData.activePlayer)
                 {
-                    attackWeight = aiState.GetProximityWeight(biasedPosition, 0, gameLevel.playerRoster[i].id, true);
+                    attackWeight = aiState.GetProximityWeight(biasedPosition, 0, gameLevelData.playerRoster[i].id, true);
                     if (attackWeight > vendettaAttackWeight)
                     {
-                        vendetta = gameLevel.playerRoster[i].id;
+                        vendetta = gameLevelData.playerRoster[i].id;
                         vendettaAttackWeight = attackWeight;
                     }
                 }
@@ -45,10 +45,10 @@ namespace cell_game.Gameplay.AI
             if (vendettaAttackWeight > aggressionWeight)
                 biasedPosition = aiState.closestNthPosition;
             else if (aiState.EconWeight < econWeight)
-                biasedPosition = GetValidRandomPosition(gameLevel,4);
+                biasedPosition = GetValidRandomPosition(gameLevelData,4);
 
-            List<IntegerPosition> normalPositions = getPositions(gameLevel.activePlayer.normalCellPlacementCount, 1, biasedPosition);
-            List<IntegerPosition> jumperPosition = getPositions(gameLevel.activePlayer.jumperCellPlacementCount, 3, biasedPosition);
+            List<IntegerPosition> normalPositions = getPositions(gameLevelData.activePlayer.normalCellPlacementCount, 1, biasedPosition);
+            List<IntegerPosition> jumperPosition = getPositions(gameLevelData.activePlayer.jumperCellPlacementCount, 3, biasedPosition);
 
             List<GameAction> actions = new List<GameAction>();
             for (int i = 0; i < normalPositions.Count; i++)
@@ -70,7 +70,7 @@ namespace cell_game.Gameplay.AI
 
             levelAnalysis.ForArea((x, y) => 
             {
-                if (levelAnalysis.map[x, y] == gameLevel.activePlayer.id)
+                if (levelAnalysis.map[x, y] == gameLevelData.activePlayer.id)
                 {
                     levelAnalysis.IsValidNeighborhood(x, y, range, (dx, dy) =>
                         {

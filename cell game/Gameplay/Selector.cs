@@ -1,26 +1,19 @@
 ﻿using isometricgame.GameEngine;
-using isometricgame.GameEngine.Components.Rendering;
 using isometricgame.GameEngine.Events.Arguments;
-using isometricgame.GameEngine.Scenes;
 using isometricgame.GameEngine.Systems.Input;
 using isometricgame.GameEngine.Systems.Rendering;
-using isometricgame.GameEngine.WorldSpace.ChunkSpace;
 using OpenTK;
 using OpenTK.Input;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using cell_game.Scenes;
 
 namespace cell_game.Gameplay
 {
-    public class Selector : GameObject
+    public class Selector : World_Space_GameObject
     {
         private bool playerControlled = true;
-        private Level gameLevel;
+        private Level_Data gameLevelData;
         SelectorMovementComponent movement;
-        InputHandler inputHandler;
+        InputHandler Cell_Game__INPUTHANDLER__Reference;
         public bool placingNormals = true;
 
         public bool placementSuccess = true;
@@ -30,28 +23,37 @@ namespace cell_game.Gameplay
         private GameAction[] aiMoves = new GameAction[0];
         private int moveIndex = -1;
 
-        public Selector(Scene scene, Level gameLevel) 
-            : base(scene, new Vector3(0,0,0))
+        public Selector(Game_Scene_Layer sceneLayer, Level_Data gameLevelData) 
+            : 
+            base
+            (
+                sceneLayer, 
+                new Vector3(0,0,0), 
+                new SelectorMovementComponent(null, 0, 0, 5, 5)
+            )
         {
-            SpriteComponent = new SpriteComponent();
-            SpriteComponent.SetSprite(scene.Game.GetSystem<SpriteLibrary>().GetSprite("selector"));
+            GameObject_World__Sprite_Render.Set__Sprite__Sprite_Render
+            (
+                sceneLayer.Scene_Layer__Game.Get_System__Game<SpriteLibrary>().ExtractRenderUnit("selector")
+            );
 
-            inputHandler = scene.Game.GetSystem<InputSystem>().RegisterHandler(InputType.Keyboard_UpDown);
-            inputHandler.DeclareKeySwitch(Key.T);
+            Cell_Game__INPUTHANDLER__Reference = sceneLayer.CELL_GAME__Reference.Cell_Game__Input_Handler;
 
-            AddComponent(movement = new SelectorMovementComponent(inputHandler, 0, 0, 5, 5));
-            SetLevel(gameLevel);
+            movement = Get__Component__GameObject<SelectorMovementComponent>();
+            movement.Cell_Game__InputHandler__Reference = Cell_Game__INPUTHANDLER__Reference;
+            
+            SetLevel(gameLevelData);
         }
 
-        public void SetLevel(Level gameLevel)
+        public void SetLevel(Level_Data gameLevelData)
         {
-            this.gameLevel = gameLevel;
+            this.gameLevelData = gameLevelData;
 
-            int offsetX = gameLevel.offset.X / 16;
-            int offsetY = gameLevel.offset.Y / 16;
+            int offsetX = gameLevelData.offset.X / 16;
+            int offsetY = gameLevelData.offset.Y / 16;
 
-            int limitX = gameLevel.width;
-            int limitY = gameLevel.height;
+            int limitX = gameLevelData.width;
+            int limitY = gameLevelData.height;
 
             Position = new Vector3(offsetX * 16, offsetY * 16, 0);
             movement.SetBounds(offsetX, offsetY, limitX, limitY);
@@ -59,7 +61,7 @@ namespace cell_game.Gameplay
 
         public override void OnUpdate(FrameArgument args)
         {
-            if (gameLevel.gameStarted)
+            if (gameLevelData.gameStarted)
             {
                 if (timeCounter > 0)
                 {
@@ -71,30 +73,30 @@ namespace cell_game.Gameplay
                     timeCounter = timeDelay;
                     if (playerControlled)
                     {
-                        if (inputHandler.Keyboard_UpDown != null)
+                        if (Cell_Game__INPUTHANDLER__Reference.Keyboard_UpDown != null)
                         {
-                            KeyboardState keyboard = inputHandler.Keyboard_UpDown.Keyboard;
+                            KeyboardState keyboard = Cell_Game__INPUTHANDLER__Reference.Keyboard_UpDown.Keyboard;
 
-                            placingNormals = !inputHandler.Keyboard_SwitchState_Bool(Key.T);
+                            placingNormals = !Cell_Game__INPUTHANDLER__Reference.EvaluateSwitchState(Key.T.ToString());
 
                             bool canPlace = true;
 
                             if (placingNormals)
-                                canPlace = (gameLevel.activePlayer.normalCellPlacementCount > 0);
+                                canPlace = (gameLevelData.activePlayer.normalCellPlacementCount > 0);
                             else
-                                canPlace = (gameLevel.activePlayer.jumperCellPlacementCount > 0);
+                                canPlace = (gameLevelData.activePlayer.jumperCellPlacementCount > 0);
 
-                            if (canPlace && keyboard.IsKeyDown(Key.Space) && gameLevel.activePlayer.TotalMoves > 0)
+                            if (canPlace && keyboard.IsKeyDown(Key.Space) && gameLevelData.activePlayer.TotalMoves > 0)
                             {
                                 int range = (placingNormals) ? 1 : 3;
-                                placementSuccess = gameLevel.PlaceCell(movement.X, movement.Y, gameLevel.activePlayer.id, range);
+                                placementSuccess = gameLevelData.PlaceCell(movement.X, movement.Y, gameLevelData.activePlayer.id, range);
 
                                 if (placementSuccess)
                                 {
                                     if (placingNormals)
-                                        gameLevel.activePlayer.normalCellPlacementCount--;
+                                        gameLevelData.activePlayer.normalCellPlacementCount--;
                                     else
-                                        gameLevel.activePlayer.jumperCellPlacementCount--;
+                                        gameLevelData.activePlayer.jumperCellPlacementCount--;
                                 }
                             }
                         }
@@ -105,7 +107,7 @@ namespace cell_game.Gameplay
                         {
                             if (aiMoves[moveIndex].gameAction == GameActions.EndTurn)
                             {
-                                gameLevel.activePlayer.turnOver = true;
+                                gameLevelData.activePlayer.turnOver = true;
                                 return;
                             }
 
@@ -113,20 +115,20 @@ namespace cell_game.Gameplay
 
                             placingNormals = aiMoves[moveIndex].gameAction == GameActions.PlaceNormal;
                             int range = (placingNormals) ? 1 : 3;
-                            bool success = gameLevel.PlaceCell(aiMoves[moveIndex].position.X, aiMoves[moveIndex].position.Y, gameLevel.activePlayer.id, range);
+                            bool success = gameLevelData.PlaceCell(aiMoves[moveIndex].position.X, aiMoves[moveIndex].position.Y, gameLevelData.activePlayer.id, range);
 
                             if (success)
                             {
                                 if (placingNormals)
-                                    gameLevel.activePlayer.normalCellPlacementCount--;
+                                    gameLevelData.activePlayer.normalCellPlacementCount--;
                                 else
-                                    gameLevel.activePlayer.jumperCellPlacementCount--;
+                                    gameLevelData.activePlayer.jumperCellPlacementCount--;
                                 moveIndex++;
                             }
                         }
                         else
                         {
-                            gameLevel.activePlayer.turnOver = true;
+                            gameLevelData.activePlayer.turnOver = true;
                         }
                     }
                 }

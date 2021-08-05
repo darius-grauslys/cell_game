@@ -19,13 +19,13 @@ namespace cell_game.Gameplay
         public bool aiControlled = true;
         public bool turnOver = false;
         public bool finishedInGame = false;
-        public readonly int id;
+        public readonly uint id;
 
         public readonly string name;
 
         public CellAI playerAi;
 
-        public Player(string name, int id, CellAI playerAi = null)
+        public Player(string name, uint id, CellAI playerAi = null)
         {
             this.name = name;
             this.id = id;

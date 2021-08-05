@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>cell_game</RootNamespace>
     <AssemblyName>cell game</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
@@ -58,19 +58,21 @@
     <Compile Include="Gameplay\AI\Markov\MarkovAI.cs" />
     <Compile Include="Gameplay\AI\RandomAI.cs" />
     <Compile Include="Gameplay\GameAction.cs" />
-    <Compile Include="Gameplay\Level.cs" />
+    <Compile Include="Gameplay\Level_Data.cs" />
     <Compile Include="Gameplay\LevelAnalysis.cs" />
     <Compile Include="Gameplay\Player.cs" />
     <Compile Include="Gameplay\Selector.cs" />
     <Compile Include="Gameplay\SelectorMovementComponent.cs" />
-    <Compile Include="Scenes\ChildScene.cs" />
-    <Compile Include="Scenes\ControlScene.cs" />
-    <Compile Include="Scenes\GameCreationScene.cs" />
-    <Compile Include="Scenes\GameScene.cs" />
+    <Compile Include="Scenes\GameCreation\Game_Creation_Scene.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Scenes\MainMenuScene.cs" />
-    <Compile Include="Scenes\TutorialScene.cs" />
+    <Compile Include="Scenes\GameCreation\Game_Creation_Scene_Layer.cs" />
+    <Compile Include="Scenes\Game\Game_Scene.cs" />
+    <Compile Include="Scenes\Game\Game_Scene_Layer.cs" />
+    <Compile Include="Scenes\MainMenu\Main_Menu_Scene.cs" />
+    <Compile Include="Scenes\MainMenu\Main_Menu_Scene_Layer.cs" />
+    <Compile Include="Scenes\Tutorial\Tutorial_Scene.cs" />
+    <Compile Include="Scenes\Tutorial\Tutorial_Scene_Layer.cs" />
     <Compile Include="UI\TextSelect.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +86,6 @@
     <None Include="OpenTK.dll.config" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <Content Include="Assets\blue cell.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

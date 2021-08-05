@@ -17,33 +17,33 @@ namespace cell_game.Gameplay.AI
     public class AIState
     {
         private Player player;
-        private Level gameLevel;
+        private Level_Data gameLevelData;
         private LevelAnalysis levelAnalysis;
 
         public AIDirective aiDirective;
         public IntegerPosition closestNthPosition = new IntegerPosition(-1,-1);
 
         public float EconWeight => 
-            ((player.cellCount / gameLevel.MAX_CELLS) + 
-            ((player.normalCellPlacementCount + 1) / (gameLevel.maxNormalEcon + 1)) +
-            ((player.jumperCellPlacementCount + 1) / (gameLevel.maxJumperEcon + 1)))
+            ((player.cellCount / gameLevelData.MAX_CELLS) + 
+            ((player.normalCellPlacementCount + 1) / (gameLevelData.maxNormalEcon + 1)) +
+            ((player.jumperCellPlacementCount + 1) / (gameLevelData.maxJumperEcon + 1)))
             / 3;
 
         private readonly float maxDist;
         
-        public AIState(Level gameLevel, Player player)
+        public AIState(Level_Data gameLevelData, Player player)
         {
-            this.gameLevel = gameLevel;
+            this.gameLevelData = gameLevelData;
             this.player = player;
-            levelAnalysis = new LevelAnalysis(gameLevel);
-            maxDist = Dist(new IntegerPosition(gameLevel.width, gameLevel.height));
+            levelAnalysis = new LevelAnalysis(gameLevelData);
+            maxDist = Dist(new IntegerPosition(gameLevelData.width, gameLevelData.height));
         }
 
-        public float GetProximityWeight(IntegerPosition aiPos, int n = 0, int target = 0, bool playableEnemyPosition = false) => (maxDist - GetNthClosestEnemyDistance(aiPos, n, target, playableEnemyPosition)) / maxDist;
+        public float GetProximityWeight(IntegerPosition aiPos, int n = 0, uint target = 0, bool playableEnemyPosition = false) => (maxDist - GetNthClosestEnemyDistance(aiPos, n, target, playableEnemyPosition)) / maxDist;
 
-        public int GetNthClosestEnemyDistance(IntegerPosition aiPosition, int n, int target = 0, bool playableEnemyPosition = false)
+        public int GetNthClosestEnemyDistance(IntegerPosition aiPosition, int n, uint target = 0, bool playableEnemyPosition = false)
         {
-            IntegerPosition disVec = new IntegerPosition(gameLevel.width, gameLevel.height);
+            IntegerPosition disVec = new IntegerPosition(gameLevelData.width, gameLevelData.height);
             IntegerPosition deltaVec = disVec;
 
             Func<int, int, bool> playableChecker;
@@ -77,7 +77,7 @@ namespace cell_game.Gameplay.AI
                 checker = (x, y) => targetChecker(levelAnalysis.map[x, y]);
             }
 
-            int dist = gameLevel.width * gameLevel.height;
+            int dist = gameLevelData.width * gameLevelData.height;
             List<int> dists = new List<int> { dist };
             List<IntegerPosition> positions = new List<IntegerPosition>() { new IntegerPosition(-1,-1) };
 

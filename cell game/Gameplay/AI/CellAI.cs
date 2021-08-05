@@ -10,37 +10,37 @@ namespace cell_game.Gameplay.AI
 {
     public abstract class CellAI
     {
-        protected Level gameLevel;
+        protected Level_Data gameLevelData;
         protected LevelAnalysis levelAnalysis;
 
         protected AIState aiState;
 
-        public void SetLevel(Level gameLevel, Player player)
+        public void SetLevel(Level_Data gameLevelData, Player player)
         {
-            this.gameLevel = gameLevel;
-            levelAnalysis = new LevelAnalysis(gameLevel);
-            aiState = new AIState(gameLevel, player);
+            this.gameLevelData = gameLevelData;
+            levelAnalysis = new LevelAnalysis(gameLevelData);
+            aiState = new AIState(gameLevelData, player);
         }
 
         public abstract GameAction[] DetermineActions();
 
-        public static IntegerPosition GetValidRandomPosition(Level gameLevel, int range=1)
+        public static IntegerPosition GetValidRandomPosition(Level_Data gameLevelData, int range=1)
         {
             IntegerPosition ret = new IntegerPosition();
 
             bool isValid = false;
-            while (!isValid && gameLevel.RemainingCells > 0 && !gameLevel.activePlayer.turnOver)
+            while (!isValid && gameLevelData.RemainingCells > 0 && !gameLevelData.activePlayer.turnOver)
             {
-                ret = GetRandomPosition(gameLevel);
-                isValid = gameLevel.IsValidPosition(ret.X, ret.Y, range);
+                ret = GetRandomPosition(gameLevelData);
+                isValid = gameLevelData.IsValidPosition(ret.X, ret.Y, range);
             }
 
             return ret;
         }
 
-        public static IntegerPosition GetRandomPosition(Level gameLevel)
+        public static IntegerPosition GetRandomPosition(Level_Data gameLevelData)
         {
-            return new IntegerPosition(gameLevel.rand.Next(gameLevel.width), gameLevel.rand.Next(gameLevel.height));
+            return new IntegerPosition(gameLevelData.rand.Next(gameLevelData.width), gameLevelData.rand.Next(gameLevelData.height));
         }
     }
 }

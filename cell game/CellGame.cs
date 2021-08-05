@@ -9,11 +9,20 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using isometricgame.GameEngine.Systems.Input;
+using OpenTK.Input;
 
 namespace cell_game
 {
     public class CellGame : Game
     {
+        public const string SCENE_TAG__MAIN_MENU = "mainMenuScene";
+        public const string SCENE_TAG__GAME_CREATION_MENU = "gameCreationMenuScene";
+        public const string SCENE_TAG__GAME_SCENE = "gameScene";
+        public const string SCENE_TAG__TUTORIAL_SCENE = "tutorialScene";
+        
+        public InputHandler Cell_Game__Input_Handler { get; private set; }
+        
         public CellGame(string GAME_DIR = "", string GAME_DIR_ASSETS = "", string GAME_DIR_WORLDS = "") 
             : base(1200, 900, "Cell Game", GAME_DIR, GAME_DIR_ASSETS, GAME_DIR_WORLDS)
         {
@@ -31,22 +40,25 @@ namespace cell_game
             LoadSprite("selector.png", "selector", 16, 16);
             LoadSprite("gamefont.png", "font", 18, 28);
 
-            TextDisplayer.LoadFont("font", SpriteLibrary.GetSprite("font"));
-
-            //List<Player> players = new List<Player>()
-            //{
-            //    new Player("blue", 1, new RandomAI(6)),
-            //    new Player("red", 2, new RandomAI(1)),
-            //    new Player("green", 3, new RandomAI(2)),
-            //    new Player("purple", 4, new RandomAI(3)),
-            //    new Player("orange", 5, new RandomAI(4)),
-            //    new Player("pink", 6)
-            //};
+            Cell_Game__Input_Handler = Game__Input_System.RegisterHandler(InputType.Keyboard_UpDown);
+            Cell_Game__Input_Handler.DeclareSwitch(Key.Up.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.Down.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.Left.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.Right.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.Enter.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.S.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.Escape.ToString());
+            Cell_Game__Input_Handler.DeclareSwitch(Key.T.ToString());
             
-            //SetScene(new GameScene(this, players));
+            Game__Text_Displayer.LoadFont("font", (int)Game__Sprite_Library.GetSpriteID("font"));
 
-            SetScene(new ControlScene(this));
+            Game__Scene_Management_Service.AddScene(SCENE_TAG__MAIN_MENU, new Main_Menu_Scene(this));
+            Game__Scene_Management_Service.AddScene(SCENE_TAG__GAME_SCENE, new Game_Scene(this));
+            Game__Scene_Management_Service.AddScene(SCENE_TAG__GAME_CREATION_MENU, new Game_Creation_Scene(this));;
+            Game__Scene_Management_Service.AddScene(SCENE_TAG__TUTORIAL_SCENE, new Tutorial_Scene(this));
 
+            Game__Scene_Management_Service.SetScene(SCENE_TAG__MAIN_MENU);
+            
             base.OnLoad(e);
         }
 
@@ -62,8 +74,8 @@ namespace cell_game
             float b = 0,
             float a = 0f)
         {
-            SpriteLibrary.RecordSprite(
-                AssetProvider.ExtractSpriteSheet(
+            Game__Sprite_Library.RecordSprite(
+                Game__Asset_Provider.ExtractSpriteSheet(
                     Path.Combine(GAME_DIRECTORY_ASSETS, assetName),
                     name,
                     width,

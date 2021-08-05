@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace cell_game.Gameplay
 {
-    public class Level
+    public class Level_Data
     {
         public delegate void CellOperation(int x, int y, ref RenderUnit unit);
 
@@ -41,7 +41,7 @@ namespace cell_game.Gameplay
 
         public readonly IntegerPosition offset;
 
-        public Level(int width, int height, List<Player> players, IntegerPosition offset)
+        public Level_Data(int width, int height, List<Player> players, IntegerPosition offset)
         {
             this.offset = offset;
 
@@ -61,7 +61,7 @@ namespace cell_game.Gameplay
 
             for (int i = 0; i < playerRoster.Count; i++)
             {
-                placeCell(rand.Next(width), rand.Next(height), i + 1);
+                placeCell(rand.Next(width), rand.Next(height), (uint)i + 1);
             }
             
             remainingCells = width * height;
@@ -121,7 +121,7 @@ namespace cell_game.Gameplay
 
             for (int i = 0; i < fillSpaces.Length; i++)
             {
-                int pixelValue = structure.StructuralUnits[fillSpaces[i].Y][fillSpaces[i].X].Id;
+                uint pixelValue = structure.StructuralUnits[fillSpaces[i].Y][fillSpaces[i].X].Id;
                 if (pixelValue == 0)
                     bonusJumper++;
                 else if (pixelValue != turnIndex + 1)
@@ -163,7 +163,7 @@ namespace cell_game.Gameplay
                     operation(x, y, ref structure.StructuralUnits[y][x]);
         }
 
-        public bool PlaceCell(int x, int y, int playerId, int range = 1)
+        public bool PlaceCell(int x, int y, uint playerId, int range = 1)
         {
             bool validplace = IsValidPosition(x, y, range);
 
@@ -199,12 +199,12 @@ namespace cell_game.Gameplay
             return false;
         }
 
-        private void placeCell(int x, int y, int playerId)
+        private void placeCell(int x, int y, uint playerId)
         {
-            playerRoster[playerId-1].cellCount++;
-            int id = structure.StructuralUnits[y][x].Id;
+            playerRoster[(int)playerId-1].cellCount++;
+            uint id = structure.StructuralUnits[y][x].Id;
             if (id > 0 && id != turnIndex + 1)
-                playerRoster[id-1].cellCount--;
+                playerRoster[(int)id-1].cellCount--;
             else if (id == 0)
                 remainingCells--;
             structure.StructuralUnits[y][x].Id = playerId;

@@ -19,24 +19,24 @@ namespace cell_game.Gameplay
     {
         public int[,] map;
         int width, height;
-        Level gameLevel;
+        Level_Data gameLevelData;
 
-        public LevelAnalysis(Level gameLevel)
+        public LevelAnalysis(Level_Data gameLevelData)
         {
-            this.gameLevel = gameLevel;
-            map = new int[gameLevel.width, gameLevel.height];
-            width = gameLevel.width;
-            height = gameLevel.height;
+            this.gameLevelData = gameLevelData;
+            map = new int[gameLevelData.width, gameLevelData.height];
+            width = gameLevelData.width;
+            height = gameLevelData.height;
         }
 
         public void GetMap()
         {
-            gameLevel.ForEachCell((int x, int y, ref RenderUnit c) => map[x, y] = c.Id);
+            gameLevelData.ForEachCell((int x, int y, ref RenderUnit c) => map[x, y] = (int)c.Id);
         }
 
         public int GetNumberOfPlayableMoves(int playerValue, int range = 1)
         {
-            gameLevel.ForEachCell((int x, int y, ref RenderUnit c) => map[x, y] = c.Id);
+            gameLevelData.ForEachCell((int x, int y, ref RenderUnit c) => map[x, y] = (int)c.Id);
             
             int cellCount = 0;
             int moveCount = 0;
@@ -53,7 +53,7 @@ namespace cell_game.Gameplay
                 //if (!ret)
                 //    IsAllValidDiagonals(x, y, (dx, dy) => ret = true, (dx, dy) => map[dx, dy] == 0);
                 
-                if (cellCount == gameLevel.activePlayer.cellCount)
+                if (cellCount == gameLevelData.activePlayer.cellCount)
                     return false;
                 return true;
             });
@@ -63,7 +63,7 @@ namespace cell_game.Gameplay
 
         public IntegerPosition[] FindFillSpaces(int playerValue)
         {
-            gameLevel.ForEachCell((int x, int y, ref RenderUnit c) => map[x, y] = c.Id);
+            gameLevelData.ForEachCell((int x, int y, ref RenderUnit c) => map[x, y] = (int)c.Id);
 
             Func<int, int, bool> checker = (px, py) => map[px, py] == playerValue;
             Action<int, int> drawer_step_1 = (px, py) => map[px, py] = -1;

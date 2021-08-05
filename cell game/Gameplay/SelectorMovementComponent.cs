@@ -8,13 +8,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using isometricgame.GameEngine.Scenes.Components;
 
 namespace cell_game.Gameplay
 {
-    public class SelectorMovementComponent : GameComponent
+    public class SelectorMovementComponent : GameObject_Component
     {
-        InputHandler inputHandler;
-
+        internal InputHandler Cell_Game__InputHandler__Reference { get; set; }
+        
+        private Transform_Component Attached_GameObject__Transform_Component__Reference { get; set; }
+        
         private int limitX, limitY;
         private int offsetX, offsetY;
         private int x=0, y=0;
@@ -25,9 +28,13 @@ namespace cell_game.Gameplay
         private double timeDelay = 0.1;
         private double timeCounter;
 
+        private bool enabled = true;
+        public void Toggle(bool state)
+            => enabled = state;
+        
         public SelectorMovementComponent(InputHandler inputHandler, int offsetX, int offsetY, int limitX, int limitY)
         {
-            this.inputHandler = inputHandler;
+            this.Cell_Game__InputHandler__Reference = inputHandler;
             SetBounds(offsetX, offsetY, limitX, limitY);
         }
 
@@ -39,11 +46,19 @@ namespace cell_game.Gameplay
             this.limitY = limitY;
         }
 
-        protected override void OnUpdate(FrameArgument args)
+        protected override void Handle_Attach_To__GameObject__Component()
         {
-            if (inputHandler.Keyboard_UpDown == null)
+            Attached_GameObject__Transform_Component__Reference
+                = Component__Attached_GameObject.Get__Component__GameObject<Transform_Component>();
+
+            base.Handle_Attach_To__GameObject__Component();
+        }
+
+        protected override void Handle__Update__Component(FrameArgument args)
+        {
+            if (Cell_Game__InputHandler__Reference.Keyboard_UpDown == null || !enabled)
                 return;
-            KeyboardState keyboard = inputHandler.Keyboard_UpDown.Keyboard;
+            KeyboardState keyboard = Cell_Game__InputHandler__Reference.Keyboard_UpDown.Keyboard;
 
             if (timeCounter > 0)
             {
@@ -75,12 +90,13 @@ namespace cell_game.Gameplay
             }
 
             SetPositionByGridIndex(x, y);
-            base.OnUpdate(args);
+            base.Handle__Update__Component(args);
         }
 
         public void SetPositionByGridIndex(int x, int y)
         {
-            ParentObject.Position = new Vector3((x + offsetX) * 16, (y + offsetY) * 16, 0);
+            Attached_GameObject__Transform_Component__Reference.Position 
+                = new Vector3((x + offsetX) * 16, (y + offsetY) * 16, 0);
         }
     }
 }
